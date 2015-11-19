@@ -1,0 +1,17 @@
+# Created by .ignore support plugin (hsz.mobi)
+/my_main.js
+/my_Loginner.sh
+/phpPgAdmin
+/configurator/user_guide
+/.idea
+/error.log
+/access.log
+/configurator/application/config/database.php
+/configurator/application/cache
+/cookies
+/configurator/application/config/config.php
+/loginnerTemp
+/phpOutLog
+/tempFiles
+/tempGrab
+/tempToDB
