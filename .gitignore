@@ -5,3 +5,5 @@
 /tempFiles
 /tempGrab
 /tempToDB
+.idea/
+configurator/application/logs/
