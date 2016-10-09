@@ -48,23 +48,22 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'parser';
-$db['default']['password'] = '1111';
-$db['default']['database'] = 'parser';
-
-$db['default']['dbdriver'] = 'postgre';
-$db['default']['dbprefix'] = '';
-$db['default']['pconnect'] = TRUE;
-$db['default']['db_debug'] = TRUE;
-$db['default']['cache_on'] = FALSE;
-$db['default']['cachedir'] = '';
-$db['default']['char_set'] = 'utf8';
-$db['default']['dbcollat'] = 'utf8_general_ci';
-$db['default']['swap_pre'] = '';
-$db['default']['autoinit'] = TRUE;
-$db['default']['stricton'] = FALSE;
-$db['default']['port'] = 5432;
+//$db ['default'] ['hostname'] ='configurator';
+$db ['default'] ['username'] = 'parser';
+$db ['default'] ['password'] = 'parser';
+$db ['default'] ['database'] = 'parser';
+$db ['default'] ['hostname'] = 'localhost';
+$db ['default'] ['dbdriver'] = 'mysqli';
+$db ['default'] ['dbprefix'] ='';
+$db ['default'] ['pconnect'] = TRUE;
+$db ['default'] ['db_debug'] = TRUE;
+$db ['default'] ['cache_on'] = FALSE;
+$db ['default'] ['cachedir'] ='';
+$db ['default'] ['char_set'] = 'utf8';
+$db ['default'] ['dbcollat​​'] = 'utf8_general_ci';
+$db ['default'] ['swap_pre'] ='';
+$db ['default'] ['autoinit'] = TRUE;
+$db ['default'] ['stricton'] = FALSE;
 
 
 /* End of file database.php */
