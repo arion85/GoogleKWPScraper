@@ -1,15 +1,16 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
- * @package        CodeIgniter
- * @author        ExpressionEngine Dev Team
- * @copyright    Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license        http://codeigniter.com/user_guide/license.html
- * @link        http://codeigniter.com
- * @since        Version 1.0
+ * @package		CodeIgniter
+ * @author		EllisLab Dev Team
+ * @copyright		Copyright (c) 2008 - 2014, EllisLab, Inc.
+ * @copyright		Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license		http://codeigniter.com/user_guide/license.html
+ * @link		http://codeigniter.com
+ * @since		Version 1.0
  * @filesource
  */
 
@@ -36,14 +37,13 @@
  * I encapsulated the functions and wrote one additional method to fix
  * a hex conversion bug. - Rick Ellis
  *
- * @package        CodeIgniter
- * @subpackage    Libraries
- * @category    Encryption
- * @author        ExpressionEngine Dev Team
- * @link        http://codeigniter.com/user_guide/general/encryption.html
+ * @package		CodeIgniter
+ * @subpackage	Libraries
+ * @category	Encryption
+ * @author		EllisLab Dev Team
+ * @link		http://codeigniter.com/user_guide/general/encryption.html
  */
-class CI_SHA1
-{
+class CI_SHA1 {
 
 	public function __construct()
 	{
@@ -53,19 +53,21 @@ class CI_SHA1
 	/**
 	 * Generate the Hash
 	 *
-	 * @access    public
-	 * @param    string
-	 * @return    string
+	 * @access	public
+	 * @param	string
+	 * @return	string
 	 */
 	function generate($str)
 	{
 		$n = ((strlen($str) + 8) >> 6) + 1;
 
-		for ($i = 0; $i < $n * 16; $i++) {
+		for ($i = 0; $i < $n * 16; $i++)
+		{
 			$x[$i] = 0;
 		}
 
-		for ($i = 0; $i < strlen($str); $i++) {
+		for ($i = 0; $i < strlen($str); $i++)
+		{
 			$x[$i >> 2] |= ord(substr($str, $i, 1)) << (24 - ($i % 4) * 8);
 		}
 
@@ -73,23 +75,28 @@ class CI_SHA1
 
 		$x[$n * 16 - 1] = strlen($str) * 8;
 
-		$a = 1732584193;
+		$a =  1732584193;
 		$b = -271733879;
 		$c = -1732584194;
-		$d = 271733878;
+		$d =  271733878;
 		$e = -1009589776;
 
-		for ($i = 0; $i < count($x); $i += 16) {
+		for ($i = 0; $i < count($x); $i += 16)
+		{
 			$olda = $a;
 			$oldb = $b;
 			$oldc = $c;
 			$oldd = $d;
 			$olde = $e;
 
-			for ($j = 0; $j < 80; $j++) {
-				if ($j < 16) {
+			for ($j = 0; $j < 80; $j++)
+			{
+				if ($j < 16)
+				{
 					$w[$j] = $x[$i + $j];
-				} else {
+				}
+				else
+				{
 					$w[$j] = $this->_rol($w[$j - 3] ^ $w[$j - 8] ^ $w[$j - 14] ^ $w[$j - 16], 1);
 				}
 
@@ -109,7 +116,7 @@ class CI_SHA1
 			$e = $this->_safe_add($e, $olde);
 		}
 
-		return $this->_hex($a) . $this->_hex($b) . $this->_hex($c) . $this->_hex($d) . $this->_hex($e);
+		return $this->_hex($a).$this->_hex($b).$this->_hex($c).$this->_hex($d).$this->_hex($e);
 	}
 
 	// --------------------------------------------------------------------
@@ -117,16 +124,17 @@ class CI_SHA1
 	/**
 	 * Convert a decimal to hex
 	 *
-	 * @access    private
-	 * @param    string
-	 * @return    string
+	 * @access	private
+	 * @param	string
+	 * @return	string
 	 */
 	function _hex($str)
 	{
 		$str = dechex($str);
 
-		if (strlen($str) == 7) {
-			$str = '0' . $str;
+		if (strlen($str) == 7)
+		{
+			$str = '0'.$str;
 		}
 
 		return $str;
@@ -137,8 +145,8 @@ class CI_SHA1
 	/**
 	 *  Return result based on iteration
 	 *
-	 * @access    private
-	 * @return    string
+	 * @access	private
+	 * @return	string
 	 */
 	function _ft($t, $b, $c, $d)
 	{
@@ -157,18 +165,25 @@ class CI_SHA1
 	/**
 	 * Determine the additive constant
 	 *
-	 * @access    private
-	 * @return    string
+	 * @access	private
+	 * @return	string
 	 */
 	function _kt($t)
 	{
-		if ($t < 20) {
+		if ($t < 20)
+		{
 			return 1518500249;
-		} else if ($t < 40) {
+		}
+		else if ($t < 40)
+		{
 			return 1859775393;
-		} else if ($t < 60) {
+		}
+		else if ($t < 60)
+		{
 			return -1894007588;
-		} else {
+		}
+		else
+		{
 			return -899497514;
 		}
 	}
@@ -178,8 +193,8 @@ class CI_SHA1
 	/**
 	 * Add integers, wrapping at 2^32
 	 *
-	 * @access    private
-	 * @return    string
+	 * @access	private
+	 * @return	string
 	 */
 	function _safe_add($x, $y)
 	{
@@ -194,8 +209,8 @@ class CI_SHA1
 	/**
 	 * Bitwise rotate a 32-bit number
 	 *
-	 * @access    private
-	 * @return    integer
+	 * @access	private
+	 * @return	integer
 	 */
 	function _rol($num, $cnt)
 	{
@@ -207,21 +222,25 @@ class CI_SHA1
 	/**
 	 * Pad string with zero
 	 *
-	 * @access    private
-	 * @return    string
+	 * @access	private
+	 * @return	string
 	 */
 	function _zero_fill($a, $b)
 	{
 		$bin = decbin($a);
 
-		if (strlen($bin) < $b) {
+		if (strlen($bin) < $b)
+		{
 			$bin = 0;
-		} else {
+		}
+		else
+		{
 			$bin = substr($bin, 0, strlen($bin) - $b);
 		}
 
-		for ($i = 0; $i < $b; $i++) {
-			$bin = "0" . $bin;
+		for ($i=0; $i < $b; $i++)
+		{
+			$bin = "0".$bin;
 		}
 
 		return bindec($bin);
