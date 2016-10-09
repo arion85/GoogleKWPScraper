@@ -7,3 +7,4 @@
 /tempToDB
 .idea/
 configurator/application/logs/
+/configurator/application/cache/
