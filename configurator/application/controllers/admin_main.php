@@ -17,6 +17,7 @@ class Admin_main extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+
         $this->load->model('main_model');
         $this->load->model('countries_model');
 

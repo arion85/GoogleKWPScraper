@@ -3,6 +3,20 @@
 class User extends CI_Controller
 {
 
+    public function __construct()
+    {
+        parent::__construct();
+
+        // Делаем миграцию до последней версии
+        if (!$this->migration->current())
+        {
+            // Если произошла ошибка - выводим сообщение
+            show_error($this->migration->error_string());
+            die();
+        }
+
+    }
+
     /**
      * Check if the user is logged in, if he's not,
      * send him to the login page
