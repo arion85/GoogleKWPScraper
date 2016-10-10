@@ -129,16 +129,16 @@ class Countries_model extends CI_Model
      */
     function update_country($id, $data)
     {
-        $query = $this->db->get_where('countries', array('ID' => $id));
+        $query = $this->db->get_where('countries', array('id' => $id));
         $short_name = $query->row()->short_name;
         $start_words_arr = explode("\n", $this->input->post('start_words'));
         $error = false;
-        $this->db->query('BEGIN;SAVEPOINT spcountryUPD;');
-        $this->db->where('ID', $id);
+
+        $this->db->where('id', $id);
         $this->db->update('countries', $data);
         $report = array();
-        $report['error'] = $this->db->_error_number();
-        $report['message'] = $this->db->_error_message();
+        $report['error'] = $this->db->error()['code'];
+        $report['message'] = $this->db->error()['message'];
         if ($report['error'] == '') {
             if (isset($start_words_arr)) {
                 $new_keys_insert = array();
@@ -161,11 +161,7 @@ class Countries_model extends CI_Model
         } else {
             $error = true;
         }
-        if ($error) {
-            $this->db->query('ROLLBACK TO SAVEPOINT spcountryUPD;');
-        } else {
-            $this->db->query('COMMIT;');
-        }
+
         return !$error;
     }
 
