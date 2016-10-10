@@ -34,7 +34,7 @@
                     //save the columns names in a array that we will use as filter
                     $options_countries = array(0 => '-Выберите страну-');
                     foreach ($countries as $array) {
-                        $options_countries[$array['ID']] = $array['full_name'];
+                        $options_countries[$array['id']] = $array['full_name'];
                     }
 
                     echo form_open('admin/keys', $attributes);

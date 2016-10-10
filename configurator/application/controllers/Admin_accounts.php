@@ -98,6 +98,8 @@ class Admin_accounts extends CI_Controller
             }*/
             $data['search_string_selected'] = $search_string;
 
+            $filter_session_data = 'ASC';
+
             if ($order) {
                 $filter_session_data['order'] = $order;
             } else {
