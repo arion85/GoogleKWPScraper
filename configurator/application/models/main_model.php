@@ -2,6 +2,10 @@
 
 class Main_model extends CI_Model
 {
+    var $status = false;
+    var $thr_cnt = 1;
+    var $country_id = 0;
+    var $last_time = 0;
 
     /**
      * Responsable for auto load the database

@@ -76,13 +76,13 @@
                 <?php
                 foreach ($countries as $row) {
                     echo '<tr>';
-                    echo '<td>' . $row['ID'] . '</td>';
+                    echo '<td>' . $row['id'] . '</td>';
                     echo '<td>' . $row['full_name'] . '</td>';
                     echo '<td>' . $row['short_name'] . '</td>';
                     echo '<td>' . $row['country_id'] . '</td>';
                     echo '<td class="crud-actions">
-                  <a href="' . site_url("admin") . '/countries/update/' . $row['ID'] . '" class="btn btn-info">view & edit</a>
-                  <a href="' . site_url("admin") . '/countries/delete/' . $row['ID'] . '" class="btn btn-danger" onclick="return confirmDelete();">delete</a>
+                  <a href="' . site_url("admin") . '/countries/update/' . $row['id'] . '" class="btn btn-info">view & edit</a>
+                  <a href="' . site_url("admin") . '/countries/delete/' . $row['id'] . '" class="btn btn-danger" onclick="return confirmDelete();">delete</a>
                 </td>';
                     echo '</tr>';
                 }

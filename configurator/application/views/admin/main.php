@@ -44,7 +44,7 @@
 
             $options_countries = array('' => "Выберите страну");
             foreach ($countries as $row) {
-                $options_countries[$row['ID']] = $row['full_name'];
+                $options_countries[$row['id']] = $row['full_name'];
             }
             //form validation
             echo validation_errors();
@@ -58,19 +58,19 @@
                     <div class="btn-group" data-toggle="buttons">
                         <label class="btn btn-default">
                             <input type="radio" id="status" value="1"
-                                   name="status" <?php echo ($params->status == 't') ? 'checked="checked"' : '' ?>>Включен
+                                   name="status" <?php echo set_radio($params->status, '1'); ?> >Включен
                         </label>
                         <label class="btn btn-default">
                             <input type="radio" id="status" value="0"
-                                   name="status" <?php echo ($params->status == 'f') ? 'checked="checked"' : '' ?>>Отключен
+                                   name="status" <?php echo set_radio($params->status, '0', TRUE); ?> >Отключен
                         </label>
-                </div>
+                    </div>
                 </div>
                 <div class="control-group">
                     <label for="inputError" class="control-label">Количество потоков</label>
 
                     <div class="controls">
-                        <input type="text" id="thr_cnt" name="thr_cnt" value="<?php echo $params->thr_cnt; ?>"
+                        <input type="text" id="thr_cnt" name="thr_cnt" value="<?php echo set_value($params->thr_cnt, '1'); ?>"
                                class="input-mini">
                         <!--<span class="help-inline">Woohoo!</span>-->
                 </div>
@@ -79,7 +79,7 @@
                     <label for="inputError" class="control-label">Страна</label>
 
                     <div class="controls">
-                        <?php echo form_dropdown('country_id', $options_countries, $params->country_id, 'class="span3"'); ?>
+                        <?php echo form_dropdown('country_id', $options_countries, isset($params)?0:$params->country_id, 'class="span3"'); ?>
                         <!--<span class="help-inline">Woohoo!</span>-->
                     </div>
                 </div>
