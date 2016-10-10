@@ -18,10 +18,12 @@ class Main_model extends CI_Model
 
     public function get_all_params()
     {
-
-        $query = $this->db->get('params', 1, 0);
-        $report['error'] = $this->db->_error_number();
-        $report['message'] = $this->db->_error_message();
+        if ( ! $query = $this->db->get('params', 1, 0))
+        {
+            $error = $query->error();
+            $report['error'] = $error['code'];
+            $report['message'] = $error['message'];// Has keys 'code' and 'message'
+        }
 
         return $query->row();
     }
