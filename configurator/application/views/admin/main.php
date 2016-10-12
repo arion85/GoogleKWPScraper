@@ -40,7 +40,6 @@
 
             <?php
             //form data
-            $attributes = array('class' => 'form-horizontal', 'id' => '');
 
             $options_countries = array('' => "Выберите страну");
             foreach ($countries as $row) {
@@ -49,45 +48,45 @@
             //form validation
             echo validation_errors();
 
-            echo form_open('admin/main/add', $attributes);
+            echo form_open('admin/main/add', array('class' => 'form-horizontal', 'id' => ''));
+            echo form_fieldset();
             ?>
-            <fieldset>
                 <div class="control-group">
-                    <label for="status" class="control-label input-group">Состояние</label>
 
-                    <div class="btn-group" data-toggle="buttons">
-                        <label class="btn btn-default">
-                            <input type="radio" id="status" value="1"
-                                   name="status" <?php echo set_radio($params->status, '1'); ?> >Включен
-                        </label>
-                        <label class="btn btn-default">
-                            <input type="radio" id="status" value="0"
-                                   name="status" <?php echo set_radio($params->status, '0', TRUE); ?> >Отключен
-                        </label>
+                    <?php echo form_label('Состояние', 'status', array('class'=>'control-label input-group')); ?>
+
+                    <div class="btn-group" data-toggle="buttons" id="status">
+                        <?php echo form_label(trim(form_radio(array('name'=>'status'),'1',$params->status==1?true:false)).'&nbsp;'.'Включен', '' , array('class'=>'btn btn-default')); ?>
+                        <?php echo form_label(trim(form_radio(array('name'=>'status'),'0',$params->status==0?true:false)).'&nbsp;'.'Отключен', '' , array('class'=>'btn btn-default')); ?>
                     </div>
                 </div>
+
                 <div class="control-group">
-                    <label for="inputError" class="control-label">Количество потоков</label>
+
+                    <?php echo form_label('Количество потоков', 'thr_cnt', array('class'=>'control-label')); ?>
 
                     <div class="controls">
-                        <input type="text" id="thr_cnt" name="thr_cnt" value="<?php echo set_value($params->thr_cnt, '1'); ?>"
-                               class="input-mini">
-                        <!--<span class="help-inline">Woohoo!</span>-->
-                </div>
-                </div>
-                <div class="control-group">
-                    <label for="inputError" class="control-label">Страна</label>
-
-                    <div class="controls">
-                        <?php echo form_dropdown('country_id', $options_countries, isset($params)?0:$params->country_id, 'class="span3"'); ?>
+                        <?php echo form_input(array('name'=>'thr_cnt','id'=>'thr_cnt'),$params->thr_cnt,array('class'=>'input-mini'));?>
                         <!--<span class="help-inline">Woohoo!</span>-->
                     </div>
                 </div>
+
+                <div class="control-group">
+
+                    <?php echo form_label('Страна', 'country_id', array('class'=>'control-label')); ?>
+
+                    <div class="controls">
+                        <?php echo form_dropdown(array('name'=>'country_id','id'=>'country_id'), $options_countries, $params->country_id, 'class="span3"'); ?>
+                        <!--<span class="help-inline">Woohoo!</span>-->
+                    </div>
+                </div>
+
                 <div class="form-actions">
-                    <button class="btn btn-primary" type="submit">Сохранить</button>
+                    <?php echo form_submit('submitParams', 'Сохранить', array('class'=>'btn btn-primary'));?>
                 </div>
-            </fieldset>
-
-            <?php echo form_close(); ?>
+            <?php
+                echo form_fieldset_close();
+                echo form_close();
+            ?>
     </div>
     </div>

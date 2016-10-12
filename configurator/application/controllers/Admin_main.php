@@ -41,6 +41,12 @@ class Admin_main extends CI_Controller
         $config['cur_tag_close'] = '</a></li>';
 
         $data['params'] = $this->main_model->get_all_params();
+        if(!$data['params']){
+            $data['params'] = new stdClass();
+            $data['params']->status = 0;
+            $data['params']->thr_cnt = 1;
+            $data['params']->country_id = 0;
+        }
 
         if ($resultPacket = $this->session->userdata('uplErr')) {
             $data['flash_message'] = $resultPacket;

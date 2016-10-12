@@ -45,8 +45,8 @@ class Main_model extends CI_Model
             $this->db->where('id', $id);
             $this->db->update('params', $data);
             $report = array();
-            $report['error'] = $this->db->_error_number();
-            $report['message'] = $this->db->_error_message();
+            $report['error'] = $this->db->error()['code'];
+            $report['message'] = $this->db->error()['message'];
             if ($report !== 0) {
                 return true;
             } else {
