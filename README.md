@@ -3,6 +3,8 @@
 #### Автоматический граббер keywords и значений для них с Google Adwords Keyword Planner для заданного ключа
 
 ***
+**I'm upgrading parser now. To be continued...**
+***
 
 На данный момент для работы парсера необходимы две БД:
 
@@ -17,4 +19,14 @@
 4. Casperjs http://docs.casperjs.org/en/latest/installation.html
 5. PHP module php-redis https://github.com/phpredis/phpredis
 
-**I'm upgrading parser now. To be continued...**
+***
+
+###Установка:
+
+1. Установить и настроить необходимые для работы парсера программы
+2. Импортировать дамп {root}/parser.sql в базу данных
+3. В файле {root}/configurator/application/config/database.php установить параметры подключения к базе данных
+4. Перейти по адресу http://{your_domain}/configurator/
+5. Зарегистрировать нового пользователя и зайти в систему используя данные авторизации
+
+
