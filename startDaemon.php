@@ -1,16 +1,22 @@
 <?php
 
 $baseDir = dirname(__FILE__) . DIRECTORY_SEPARATOR;
-define('DB_CONN_STR', 'host=localhost dbname=parser user=parser password=1111');
+define('DB_CONN_HOST', 'localhost');
+define('DB_CONN_DB', 'parser');
+define('DB_CONN_USER', 'parser');
+define('DB_CONN_PASSW', 'parser');
 
-$dbconn = pg_connect(DB_CONN_STR)
-or die('Не могу подключиться к БД: ' . pg_last_error());
+$dbconn = mysqli_connect(DB_CONN_HOST, DB_CONN_USER, DB_CONN_PASSW, DB_CONN_DB)
+    or die('Не могу подключиться к БД (line:'.__LINE__.'): ' . mysqli_connect_error());
 
 //Получаем состояние парсера и кол-во потоков
 $query = 'SELECT status,thr_cnt,last_time FROM params LIMIT 1 OFFSET 0';
-$result = pg_query($query) or die('Ошибка запроса: ' . pg_last_error());
-$row = pg_fetch_object($result);
+$result = mysqli_query($dbconn,$query) or die('Ошибка запроса: ' . mysqli_error($dbconn));
+$row = mysqli_fetch_object($result);
 
+if(!$row){
+    die('Ошибка! Необходимо сохранить настройки парсера на странице http://{your_domain}/configurator/admin/main');
+}
 /*if($row->last_time && time()-$row->last_time<125){
     pg_free_result($result);
     pg_close($dbconn);
@@ -25,12 +31,15 @@ require $baseDir . "classes/csvParserWorker.php";
 
 $job = new JobDaemon($baseDir);
 
-while ($row->status == 't') {
-    $dbconn = pg_connect(DB_CONN_STR)
-    or die('Не могу подключиться к БД: ' . pg_last_error());
+while ($row->status == true) {
+    if(!$dbconn){
+        $dbconn = mysqli_connect(DB_CONN_HOST, DB_CONN_USER, DB_CONN_PASSW, DB_CONN_DB)
+            or die('Не могу подключиться к БД (line:'.__LINE__.'): ' . mysqli_connect_error());
+    }
+
     $query = 'UPDATE params SET last_time=' . time();
-    pg_query($query) or die('Ошибка запроса: ' . pg_last_error());
-    pg_close($dbconn);
+    mysqli_query($dbconn,$query) or die('Ошибка запроса (line: '.__LINE__.'): ' . mysqli_error($dbconn));
+    mysqli_close($dbconn);
 
     //Сбрасываем "зависшие" состояния
     all_reset($baseDir);
@@ -40,14 +49,16 @@ while ($row->status == 't') {
     $job->run();
 
     //Проверяем состояние парсера и количество потоков
-    $dbconn = pg_connect(DB_CONN_STR)
-    or die('Не могу подключиться к БД: ' . pg_last_error());
+    if(!$dbconn){
+        $dbconn = mysqli_connect(DB_CONN_HOST, DB_CONN_USER, DB_CONN_PASSW, DB_CONN_DB)
+            or die('Не могу подключиться к БД (line:'.__LINE__.'): ' . mysqli_connect_error());
+    }
     $query = 'SELECT status,thr_cnt FROM params LIMIT 1 OFFSET 0';
-    $result = pg_query($query) or die('Ошибка запроса: ' . pg_last_error());
+    $result = mysqli_query($dbconn,$query) or die('Ошибка запроса (line:'.__LINE__.'): ' . mysqli_error($dbconn));
 
-    $row = pg_fetch_object($result);
-    pg_free_result($result);
-    pg_close($dbconn);
+    $row = mysqli_fetch_object($result);
+    mysqli_free_result($result);
+    mysqli_close($dbconn);
 }
 
 function all_reset($baseDir)
@@ -68,20 +79,18 @@ function all_reset($baseDir)
             unlink($file);
 
     //Приводим все ключи "в обработке" к состоянию "в ожидании"
-    $dbconn = pg_connect(DB_CONN_STR)
-    or die('Не могу подключиться к БД: ' . pg_last_error());
+    $dbconn = mysqli_connect(DB_CONN_HOST, DB_CONN_USER, DB_CONN_PASSW, DB_CONN_DB)
+        or die('Не могу подключиться к БД (line:'.__LINE__.'): ' . mysqli_connect_error());
 
     //Сбросить "занятые" аккаунты
-    $query = 'UPDATE accounts SET busy=0 ' .
-        "WHERE busy=1";
-    pg_query($query) or die('Ошибка запроса: ' . pg_last_error());
+    $query = 'UPDATE accounts SET busy=0 WHERE busy=1';
+    mysqli_query($dbconn,$query) or die('Ошибка запроса (line:'.__LINE__.'): ' . mysqli_error($dbconn));
 
     //Сбросить "занятые" прокси
-    $query = 'UPDATE proxys SET busy=0 ' .
-        "WHERE busy=1";
-    pg_query($query) or die('Ошибка запроса: ' . pg_last_error());
+    $query = 'UPDATE proxys SET busy=0 WHERE busy=1';
+    mysqli_query($dbconn,$query) or die('Ошибка запроса (line:'.__LINE__.'): ' . mysqli_error($dbconn));
 
-    pg_close($dbconn);
+    mysqli_close($dbconn);
 }
 
 ?>
