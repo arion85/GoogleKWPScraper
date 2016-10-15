@@ -15,12 +15,12 @@ class csvParserWorker
         $redis = new Redis();
         $redis->pconnect('127.0.0.1');
         echo("Run csvParser\n");
-        $dbconn = pg_connect(DB_CONN_STR)
-        or die('Не могу подключиться к БД: ' . pg_last_error());
+        $dbconn = mysqli_connect(DB_CONN_HOST, DB_CONN_USER, DB_CONN_PASSW, DB_CONN_DB)
+            or die('Не могу подключиться к БД (file:'.__FILE__.' line:'.__LINE__.'): ' . mysqli_connect_error());
 
         //Выберем все не занятые и включенные аккаунты с привязанным прокси
         $query = 'SELECT * FROM accounts WHERE status=0 AND busy<>1 AND proxy_ip<>0 ';
-        $result = pg_query($query) or die('Ошибка запроса: ' . pg_last_error());
+        $result = mysqli_query($dbconn,$query) or die('Ошибка запроса (file:'.__FILE__.' line:'.__LINE__.'): ' . mysqli_error($dbconn));
         $accounts = pg_fetch_all($result);
         if (count($accounts) < 1) exit();
         pg_free_result($result);
